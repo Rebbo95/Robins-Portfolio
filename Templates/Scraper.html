@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+
+
+        .header {
+            font-size: 24px;
+            font-weight: bold;
+            position: absolute;
+            top: 750px;
+
+        }
+
+        body {
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'CoolFont', sans-serif;
+        }
+
+        .container {
+            text-align: center;
+            background-color: #f0f0f0;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .menu {
+            background-color: #f0f0f0;
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 10px;
+        }
+
+        button {
+            font-family: 'CoolFont', sans-serif;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        select {
+            font-family: 'CoolFont', sans-serif;
+        }
+    </style>
+</head>
+
+<div class="header">Robin's Scraper</div>
+
+<body>
+<div class="container">
+    <form action="/search" method="post">
+        <input type="text" name="url" placeholder="Enter URL">
+
+        <!-- Hidden input to store the selected element type -->
+        <input type="hidden" name="selected_element" id="selected-element" value="">
+        <button type="submit">Search</button>
+    </form>
+
+    <!-- Add a button to show the menu -->
+    <button id="show-menu">Show Menu</button>
+</div>
+
+<div class="menu" style="display: none;">
+    <h2>Menu</h2>
+    <label for="element-type">Select Element Type:</label>
+    <select name="element-type" id="element-type">
+        <option value="strong">&lt;strong&gt; - Strong Text</option>
+        <option value="em">&lt;em&gt; - Emphasized Text</option>
+        <option value="p">&lt;p&gt; - Paragraphs</option>
+        <option value="h1">&lt;h1&gt; - Headers</option>
+        <option value="li">&lt;li&gt; - Lists</option>
+
+    </select>
+    <!-- Add the "Apply" button inside the menu -->
+    <button id="apply-button">Apply</button>
+</div>
+
+<!-- JavaScript to toggle the menu visibility and set the selected element type -->
+<script>
+    document.getElementById('show-menu').addEventListener('click', function() {
+        var menu = document.querySelector('.menu');
+        if (menu.style.display === 'none' || menu.style.display === '') {
+            menu.style.display = 'block';
+        } else {
+            menu.style.display = 'none';
+        }
+    });
+
+    // Handle the "Apply" button click to set the selected element type
+    document.getElementById('apply-button').addEventListener('click', function() {
+        var selectedElementType = document.getElementById('element-type').value;
+        document.getElementById('selected-element').value = selectedElementType;
+    });
+</script>
+</body>
+</html>
