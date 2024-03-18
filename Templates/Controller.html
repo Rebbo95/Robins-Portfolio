@@ -20,6 +20,7 @@
             position: relative;
         }
 
+
         #gameboy {
             background-color: #b0b0b0;
             border-radius: 20px;
@@ -29,6 +30,20 @@
             height: 100%;
             position: absolute;
         }
+
+        #cartridgeHolder {
+          position: absolute;
+          top: -5%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          z-index: 5;
+          width: 130px;
+          height: 50px;
+
+          border: 5px solid #333;
+          border-radius: 5px;
+}
+
 
         .screen {
             background-color: #aaa;
@@ -111,67 +126,105 @@
             width: 30px;
             height: 10px;
             border-radius: 5px;
-            margin: 100 5px;
+            margin: 100px 5px;
             cursor: pointer;
         }
+        #joyStick {
+           position: absolute;
 
+           bottom: 200px; /* Adjust position as needed */
+
+           left: 50%;
+        }
+
+        #joystickImage {
+            width: 100px;
+            height: auto;
+            cursor: pointer;
+        }
         #content {
             max-width: 100%;
             max-height: 100%;
             overflow: auto;
             margin: 5px
         }
+
+        #cartridge {
+            position: absolute;
+            top: 400px
+            left: 120%;
+            height: 6000px
+            width: 8px; /* Adjust the width as needed */
+
+            transform: translateX(-50%);
+            z-index: 0; /* Ensure it's above other elements */
+        }
+
+
     </style>
+
+
+    <!-- content.js script that holds all const files, and html related functions. -->
+     <!-- it loads the file; content.js from 'static' (folder) -->
+
+      <script src="{{ url_for('static', filename='cartridgeAnimation.js') }}"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            animateCartridge("cartridge", "cartridgeHolder");
+        });
+    </script>
+
+    <script src="{{ url_for('static', filename='content.js') }}"></script>
+
+    <script>
+        // Function to load the previous content
+        function previousContent() {
+            // Call the function from content.js
+            loadIntro();
+        }
+
+        // Function to load the next content
+             function nextContent() {
+            // Call the function from content.js
+            loadRogueLite();
+        }
+    </script>
+
+
 </head>
 <body>
 
 
 <div id="gameboy-controller">
     <div id="gameboy">
+         <div id="cartridgeHolder"></div>
+
+
+          <!--Main screen, where all content is loaded into. -->
+            <!-- content.js uses the id = "content" within it's respective functions -->
         <div class="screen">
             <div class="screen-content" id="content">
                 <!-- Content will be loaded here -->
-
             </div>
         </div>
-
+        <!-- it loads Joystick.png from the folder Static, and sets an id=joystickImage to it. -->
+        <div class="JoyStick" id="joyStick">
+            <img src="{{ url_for('static', filename='Joystick.png') }}" alt="Joystick" id="joystickImage">
+        </div>
+         <!-- Adds, two buttons just under the screen, next and previous. -->
+          <!--These buttons are used to navigate through .html file, from functions coded in content.js.-->
         <div class="TopButtons">
             <button class="button" onclick="previousContent()">Previous</button>
             <button class="button" onclick="nextContent()">Next</button>
         </div>
     </div>
+
+        <img id="cartridge" src="{{ url_for('static', filename='Cartridge.png') }}" alt="Cartridge">
+    </div>
+
 </div>
 
-<!--content files for the screen. -->
-<script>
-    // Define the link to the intro page
-    const introLink = '<a href="/intro" onclick="loadIntro()">Intro</a>';
-    const GuessGame = '<a href="RogueLite" onclick="loadRogueLite()">RogueLite</a>';
-    const contentFiles = [introLink, GuessGame];
-    let currentIndex = 0// Current index of the content file being displayed
 
-    // Function to load the intro page content
-    function loadIntro() {
-        fetch("/intro")
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById("content").innerHTML = data;
-            })
-            .catch(error => console.error('Error loading content:', error));
-    }
-
-    function loadRogueLite() {
-        fetch("/RogueLite")
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById("content").innerHTML = data;
-            })
-            .catch(error => console.error('Error loading content:', error));
-    }
-    // Initially load the first content
-   document.getElementById("content").innerHTML = contentFiles.join(' ');
-
-</script>
 
 </body>
 </html>

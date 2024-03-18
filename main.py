@@ -18,6 +18,11 @@ def intro():
     return render_template('intro.html')
 
 
+@app.route('/Scraper')
+def Scraper():
+    return render_template('Scraper.html')
+
+
 @app.route('/RogueLite')
 def guess():
     return render_template('RogueLite.html')
